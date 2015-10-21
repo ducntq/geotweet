@@ -20,4 +20,10 @@ elixir(function(mix) {
         '../bower/jquery/dist/jquery.js',
         '../bower/bootstrap-sass/assets/javascripts/bootstrap.js'
     ], 'public/js/vendor.js');
+
+    mix.scripts(
+        [
+            'main.js'
+        ], 'public/js/main.js'
+    );
 });
