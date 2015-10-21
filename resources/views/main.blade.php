@@ -1,9 +1,11 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>GeoTweet - A project by Duc Nguyen</title>
-    </head>
-    <body>
-    @yield('content')
-    </body>
-</html>
+@extends('layout')
+@section('content')
+    <div class="container-fluid" id="viewport">
+        <div class="row">
+            <div class="col-md-6">
+                <div id="map"></div>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+    </div>
+@endsection
