@@ -1,0 +1,1 @@
+{"virtualbox":{"/home/vagrant/geotweet":{"type":null,"mount_options":[],"guestpath":"/home/vagrant/geotweet","hostpath":"/home/ducntq/Works/PHP/geotweet","disabled":false},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/ducntq/Works/PHP/geotweet","disabled":false}}}
