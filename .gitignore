@@ -1,5 +1,11 @@
 /vendor
 /node_modules
+public/css
+public/js
+resources/assets/bower
 Homestead.yaml
 Homestead.json
 .env
+.idea
+.vagrant
+_ide_helper.php
