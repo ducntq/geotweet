@@ -65,10 +65,12 @@ class Tweet extends Model
             $geoCodePattern = '%s,%s,%s';
             $geoCode = sprintf($geoCodePattern, $city->latitude, $city->longitude, $radius);
 
+            $query = sprintf('%s OR #%s', $city->name, $city->name);
+
             // if tweets from this city are fetched more than 1 hour ago
             // then fetch again from twitter API
             $twitterQuery = [
-                'q' => $city->name,
+                'q' => $query,
                 'geocode' => $geoCode,
                 'count' => $limit
             ];
