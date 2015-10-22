@@ -21,7 +21,19 @@ class TweetController extends Controller
         if (empty($query)) return response()->json($result);
 
         $city = City::findWithQuery($query);
-        var_dump($city);die();
+
+        if ($city) {
+            $twitterQuery = [
+                'q' => '',
+                'geocode' => $city->latitude . ',' . $city->longitude . ',10km',
+                'count' => 10
+            ];
+            $tweets = \Twitter::getSearch($twitterQuery);
+            echo '<pre>';
+            print_r($tweets->statuses[0]);
+            echo '</pre>';
+            die();
+        }
 
         return response()->json($query);
     }

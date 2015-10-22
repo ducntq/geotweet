@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\City
- *
+ * 
  * Class City represents a city as a location
  * with longitude and latitude
  *
@@ -16,16 +16,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $latitude Latitude of city
  * @property string $longitude Longitude of city
  * @property string $country Full country name of city
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\App\City whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereIndexName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereLatitude($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereLongitude($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereCountry($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\City whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\City whereUpdatedAt($value)
  */
 class City extends Model
 {
-
+    /** @var string Table name */
     protected $table = 'city';
 
     /**
