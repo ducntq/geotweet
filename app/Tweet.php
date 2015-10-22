@@ -113,7 +113,7 @@ class Tweet extends Model
         $tweet->latitude = (string)$data->coordinates->coordinates[1];
         $tweet->longitude = (string)$data->coordinates->coordinates[0];
         $tweet->city_id = $city->id;
-        $tweet->fetched_at = Carbon::now();
+        $tweet->fetched_at = Carbon::parse($data->created_at);
         return $tweet;
     }
 }

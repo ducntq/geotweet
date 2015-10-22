@@ -96,7 +96,10 @@ var GeoTweet = (function () {
         var coords = {lat: parseFloat(tweet.latitude), lng: parseFloat(tweet.longitude)};
 
         // info box
-        var content = jQuery('<div />').addClass('user-tweet').text(tweet.content)[0].outerHTML;
+        var $contentContainer = $('<div />').addClass('user-tweet');
+        $('<div />').addClass('content').text(tweet.content).appendTo($contentContainer);
+        $('<div />').addClass('meta').text('When: ' + tweet.fetched_at).appendTo($contentContainer);
+        var content = $contentContainer[0].outerHTML;
         var info = new google.maps.InfoWindow({
             content: content
         });
@@ -121,6 +124,9 @@ var GeoTweet = (function () {
         });
     }
 
+    /**
+     * Remove all markers on map
+     */
     function clearMarkers() {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
