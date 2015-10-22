@@ -145,7 +145,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-
+        Thujohn\Twitter\TwitterServiceProvider::class,
+        Toin0u\Geocoder\GeocoderServiceProvider::class,
     ],
 
     /*
@@ -194,7 +195,8 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
-
+        'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
+        'Geocoder' => Toin0u\Geocoder\Facade\Geocoder::class,
     ],
 
 ];

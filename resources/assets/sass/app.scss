@@ -1,4 +1,24 @@
 @import "../bower/bootstrap-sass/assets/stylesheets/bootstrap";
-#viewport, #map {
+
+#viewport {
   height: 100vh;
+  padding-bottom: 50px;
 }
+#viewport > div:first-child {
+  height: 100%;
+}
+#map {
+  height: 100%;
+}
+
+// No gutters override
+.row.no-gutters {
+  & > [class^="col-"],
+  & > [class*=" col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+// override border-radius of input and button
+#controls input, #controls button {border-radius: 0}
