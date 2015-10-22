@@ -7,6 +7,7 @@ function initMap() {
     // init new GeoTweet instance and bind events
     var geoTweet = new GeoTweet(jQuery, map);
     geoTweet.bind();
+    geoTweet.focusInput();
 }
 
 var GeoTweet = (function () {
@@ -30,8 +31,16 @@ var GeoTweet = (function () {
         $historyBtn = $('#history-btn');
     }
 
+    /**
+     * Get query from input
+     * @returns {*}
+     */
     function getQuery() {
         return $input.val();
+    }
+
+    function focusOnInput() {
+        $input.focus();
     }
 
     /**
@@ -158,6 +167,10 @@ var GeoTweet = (function () {
     GeoTweet.prototype.bind = function () {
         bindSearchBtn();
         bindQueryInputKeyup();
+    };
+
+    GeoTweet.prototype.focusInput = function() {
+        focusOnInput();
     };
 
     return GeoTweet;
