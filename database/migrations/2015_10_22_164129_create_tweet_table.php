@@ -23,6 +23,7 @@ class CreateTweetTable extends Migration
             $table->timestamp('fetched_at');
             $table->integer('city_id', false, true);
             $table->timestamps();
+            $table->primary('id');
         });
     }
 
