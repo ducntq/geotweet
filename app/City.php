@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $country Full country name of city
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $fetched_at
  * @method static \Illuminate\Database\Query\Builder|\App\City whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereIndexName($value)
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\City whereCountry($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\City whereFetchedAt($value)
  */
 class City extends Model
 {
