@@ -58,6 +58,8 @@ class Tweet extends Model
         if (!isset($city->fetched_at) || $city->fetched_at->addHour(1)->lt(Carbon::now())) {
             // purge old tweets created in the last 1 hour
             Tweet::whereCityId($city->id)->delete();
+            $city->fetched_at = Carbon::now();
+            $city->save();
 
             // build up query for geo search
             $geoCodePattern = '%s,%s,%s';

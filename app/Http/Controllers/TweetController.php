@@ -27,7 +27,7 @@ class TweetController extends Controller
         if ($city) {
             $tweets = Tweet::fetchByCity($city);
             if (!empty($tweets)) {
-                $result['data'] = $tweets;
+                $result['data'] = [ 'city' => $city, 'tweets' => $tweets];
             }
         }
 
