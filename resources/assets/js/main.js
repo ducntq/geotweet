@@ -4,14 +4,13 @@ function initMap() {
         center: {lat: 12.19070471984058, lng: 94.394},
         zoom: 3
     });
-    console.log('Map initialized');
     // init new GeoTweet instance and bind events
     var geoTweet = new GeoTweet(jQuery, map);
     geoTweet.bind();
 }
 
 var GeoTweet = (function () {
-    var $, map, $input, $searchBtn, $historyBtn;
+    var $, map, $input, $searchBtn, $historyBtn, markers = [];
 
     /**
      * Constructor of GeoTweet
@@ -63,10 +62,16 @@ var GeoTweet = (function () {
      * @param query
      */
     function performSearch(query) {
+        clearMarkers();
         if (query.length > 0) {
+            markers = [];
             search(query, function(data) {
-                var city = data.city, tweets = data.tweets;
+                var city = data.city, tweets = data.tweets, totalTweets = tweets.length;
                 mapPanAndZoom(city, 13);
+
+                for (var i = 0; i < totalTweets; i++) {
+                    drawTweet(tweets[i]);
+                }
             });
         }
     }
@@ -80,6 +85,46 @@ var GeoTweet = (function () {
         var coords = {lat: parseFloat(city.latitude), lng: parseFloat(city.longitude)};
         map.panTo(coords);
         if (typeof zoom == 'number') map.setZoom(zoom);
+    }
+
+    /**
+     * Draw a tweet on the map
+     * @param tweet
+     */
+    function drawTweet(tweet) {
+        var image = tweet.user_avatar;
+        var coords = {lat: parseFloat(tweet.latitude), lng: parseFloat(tweet.longitude)};
+
+        // info box
+        var content = jQuery('<div />').addClass('user-tweet').text(tweet.content)[0].outerHTML;
+        var info = new google.maps.InfoWindow({
+            content: content
+        });
+
+        var marker = new google.maps.Marker({
+            position: coords,
+            map: map,
+            icon: {
+                url: image,
+                size:new google.maps.Size(48,48)},
+                shape: {
+                    coords:[17,17,18],
+                    type:'circle'
+                },
+            optimized:false,
+            title: tweet.content
+        });
+        markers.push(marker);
+
+        marker.addListener('click', function() {
+            info.open(map, marker);
+        });
+    }
+
+    function clearMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
     }
 
     /**

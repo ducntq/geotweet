@@ -25,5 +25,10 @@
   }
 }
 
+img[src^="http://pbs"] {
+  border-radius: 25px;
+  border: solid 1px #636363;
+}
+
 // override border-radius of input and button
 #controls input, #controls button {border-radius: 0}

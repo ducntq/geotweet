@@ -75,9 +75,9 @@ class Tweet extends Model
 
             $rawTweets = \Twitter::getSearch($twitterQuery);
 
-            // filter out tweets that don't have geo data
+            // filter out tweets that don't have geo data and empty content
             $rawTweets = array_filter($rawTweets->statuses, function($t) {
-                return isset($t->coordinates) && !empty($t->coordinates->coordinates);
+                return isset($t->coordinates) && !empty($t->coordinates->coordinates) && !empty($t->text);
             });
 
             $tweets = [];
@@ -103,12 +103,13 @@ class Tweet extends Model
     public static function loadFromTwitterApi($data, $city)
     {
         $tweet = new Tweet();
+        $tweet->id = $data->id;
         $tweet->content = $data->text;
         $tweet->username = $data->user->name;
         $tweet->user_display_name = $data->user->screen_name;
-        $tweet->user_avatar = str_replace('_normal.', '_bigger.', $data->user->profile_image_url);
-        $tweet->latitude = (string)$data->coordinates->coordinates[0];
-        $tweet->longitude = (string)$data->coordinates->coordinates[1];
+        $tweet->user_avatar = $data->user->profile_image_url;
+        $tweet->latitude = (string)$data->coordinates->coordinates[1];
+        $tweet->longitude = (string)$data->coordinates->coordinates[0];
         $tweet->city_id = $city->id;
         $tweet->fetched_at = Carbon::now();
         return $tweet;
