@@ -31,8 +31,17 @@ use Illuminate\Database\Eloquent\Model;
  */
 class City extends Model
 {
-    /** @var string Table name */
+    /**
+     * Table name
+     * @var string
+     */
     protected $table = 'city';
+
+    /**
+     * List of properties will be transformed to `Carbon` object
+     * @var array
+     */
+    protected $dates = ['fetched_at'];
 
     /**
      * @param $query string Query for searching
@@ -58,12 +67,24 @@ class City extends Model
         if (!$geocode) return null;
 
         // else, create a new City, save to database, and return
+        $city = City::loadFromGeoCoded($geocode);
+        if ($city->save()) return $city;
+        else return null;
+    }
+
+    /**
+     * Create an instance of `City` from GeoCoded data
+     *
+     * @param $geocode \Geocoder\Result\Geocoded
+     * @return City
+     */
+    public static function loadFromGeoCoded($geocode)
+    {
         $city = new City();
         $city->name = $geocode->getCity();
         $city->index_name = mb_strtolower($city->name); // in case we have to deal with Unicode
         $city->longitude = $geocode->getLongitude();
         $city->latitude = $geocode->getLatitude();
-        if ($city->save()) return $city;
-        else return null;
+        return $city;
     }
 }

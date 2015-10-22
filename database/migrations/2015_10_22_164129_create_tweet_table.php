@@ -21,6 +21,7 @@ class CreateTweetTable extends Migration
             $table->string('latitude');
             $table->string('longitude');
             $table->timestamp('fetched_at');
+            $table->integer('city_id', false, true);
             $table->timestamps();
         });
     }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\City;
+use App\Tweet;
+use Carbon\Carbon;
 
 class TweetController extends Controller
 {
@@ -23,18 +25,12 @@ class TweetController extends Controller
         $city = City::findWithQuery($query);
 
         if ($city) {
-            $twitterQuery = [
-                'q' => '',
-                'geocode' => $city->latitude . ',' . $city->longitude . ',10km',
-                'count' => 10
-            ];
-            $tweets = \Twitter::getSearch($twitterQuery);
-            echo '<pre>';
-            print_r($tweets->statuses[0]);
-            echo '</pre>';
-            die();
+            $tweets = Tweet::fetchByCity($city);
+            if (!empty($tweets)) {
+                $result['data'] = $tweets;
+            }
         }
 
-        return response()->json($query);
+        return response()->json($result);
     }
 }
