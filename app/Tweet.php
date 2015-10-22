@@ -89,7 +89,7 @@ class Tweet extends Model
         } else {
             // if tweets from this city are fetched from API less than 1 hour ago
             // then load from database
-            return Tweet::whereCityId($city->id)->all();
+            return Tweet::whereCityId($city->id)->get();
         }
     }
 
