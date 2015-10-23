@@ -1,16 +1,17 @@
 # GeoTweet
 
 GeoTweet is a open source demo, and is built to showcase the use of Twitter Tweets Search
-with Google Maps GeoCoding API as well as Google Maps Javascript API.
+with Google Maps Places API as well as Google Maps Javascript API.
 
 Author: Duc Nguyen <ducntq@gmail.com>
 
 ## Features
 
 + Utilize Google Maps Javascript API to display tweets' locations
++ Utilize Google Maps Places Javascript API to auto-complete city name
 + Utilize Twitter REST API to search for tweets contains city name and
 in radius of 50km from the center of a city
-+ Utilize Google Maps GeoCoding API to search for city and its coordinates
++ Utilize Google Maps Places API to search for city and its coordinates
 + Tweets and cities will be stored in database for caching purpose. Tweets will be refetched after
 1 hour duration, while cities won't because cities are unlike to change
 + Responsive layout by using Twitter Bootstrap 3
