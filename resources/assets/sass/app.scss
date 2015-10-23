@@ -13,6 +13,7 @@
   width: 300px;
   background: #ffffff;
   display: none;
+  z-index: 100;
 
   &.show {
     display: block;
@@ -51,8 +52,9 @@
   height: 40px;
   font-size: 30px;
   line-height: 35px;
-  color: #337ab7;
+  color: #1872BF;
   text-shadow: 0 0 3px #FFE814;
+  font-weight: bold;
 }
 
 #map-row {
@@ -70,12 +72,11 @@
 
 @media screen and (max-width: 767px) {
   #history-container {
-    top: 92px;
     width: 100%;
     left: 0;
   }
-  #map-row {
-    top: 92px;
+  #title {
+    top: 95px;
   }
 }
 // No gutters override
