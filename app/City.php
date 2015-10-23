@@ -64,7 +64,7 @@ class City extends Model
         }
 
         // if no result from Google, return null
-        if (!$geocode) return null;
+        if (!$geocode || empty($geocode->getCity())) return null;
 
         // else, create a new City, save to database, and return
         $city = City::loadFromGeoCoded($geocode);
