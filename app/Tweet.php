@@ -55,6 +55,15 @@ class Tweet extends Model
      */
     public static function fetchByCity($city, $radius = '50km', $limit = 20)
     {
+        // save history
+        $userId = \Cookie::get('id');
+        if ($userId) {
+            $history = new History();
+            $history->city_name = $city->name;
+            $history->user_id = $userId;
+            $history->save();
+        }
+
         if (!isset($city->fetched_at) || $city->fetched_at->addHour(1)->lt(Carbon::now())) {
             // purge old tweets created in the last 1 hour
             Tweet::whereCityId($city->id)->delete();

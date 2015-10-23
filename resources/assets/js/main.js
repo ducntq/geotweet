@@ -89,6 +89,15 @@ var GeoTweet = (function () {
         });
     }
 
+    function bindHistoryItemClick() {
+        $historyList.on('click', '.history-item a', function(e) {
+            var $this = $(this), city = $this.attr('data-city');
+            e.preventDefault();
+            $input.val(city);
+            performSearch(city);
+        });
+    }
+
     /**
      * Perform a search with query. On success, zoom to city location
      * and display tweets on map
@@ -101,6 +110,7 @@ var GeoTweet = (function () {
             search(query, function(data) {
                 var city = data.city, tweets = data.tweets, totalTweets = tweets.length;
                 mapPanAndZoom(city, 13);
+                createHistoryItem(city);
 
                 for (var i = 0; i < totalTweets; i++) {
                     drawTweet(tweets[i]);
@@ -117,6 +127,17 @@ var GeoTweet = (function () {
                 }
             });
         }
+    }
+
+    /**
+     * Create history item, prepend to history list
+     * @param city
+     */
+    function createHistoryItem(city) {
+        var $li = $('<li />').addClass('history-item');
+        var $history = $('<a />').attr('href', '#').attr('data-city', city.name).text(city.name);
+        $history.appendTo($li);
+        $li.insertAfter($closeHistory);
     }
 
     /**
@@ -203,6 +224,7 @@ var GeoTweet = (function () {
         bindQueryInputKeyup();
         bindHistoryBtn();
         bindCloseHistoryBtn();
+        bindHistoryItemClick();
     };
 
     GeoTweet.prototype.focusInput = function() {

@@ -1,4 +1,11 @@
 <?php
+/**
+ * TweetController for requesting Tweets
+ *
+ * User: ducntq
+ * Date: 22/10/2015
+ * Time: 20:00
+ */
 
 namespace App\Http\Controllers;
 
