@@ -51,12 +51,12 @@ After cloning ``geotweet`` from github.com, edit configuration files in ``config
 
 Open command line or terminal, change working directory to ``geotweet`` and run the following commands:
 
-``
+```bash
 composer install --no-dev # install php packages
 npm install # install nodejs packages
 bower install # install frontend packages
 DISABLE_NOTIFIER=true gulp --production # minify and combine assets
 php artisan migrate
-``
+```
 
 Then you're ready to go.
