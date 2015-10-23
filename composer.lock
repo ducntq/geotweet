@@ -4,9 +4,113 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "30364fd96a97b0291c078abf9dadce2a",
-    "content-hash": "eed7a4fc5955cbdecbcda74621b40fb0",
+    "hash": "6743c08e956afbbaca77e6909a584d97",
+    "content-hash": "60255d2d4ee8839c59131da102de30c6",
     "packages": [
+        {
+            "name": "alexpechkarev/geometry-library",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alexpechkarev/geometry-library.git",
+                "reference": "ebbf02c3e907e0bd19c9474fd5eb77b9ca1ce414"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alexpechkarev/geometry-library/zipball/ebbf02c3e907e0bd19c9474fd5eb77b9ca1ce414",
+                "reference": "ebbf02c3e907e0bd19c9474fd5eb77b9ca1ce414",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GeometryLibrary\\": "/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Pechkarev",
+                    "email": "alexpechkarev@gmail.com"
+                }
+            ],
+            "description": "PHP Geometry library provides utility functions for the computation of geometric data on the surface of the Earth.",
+            "homepage": "https://alexpechkarev.github.io/geometry-library/",
+            "keywords": [
+                "computations polygons and polylines",
+                "encoding and decoding polyline paths utilities",
+                "google maps geometry library",
+                "php geometry library",
+                "spherical geometry utilities"
+            ],
+            "time": "2015-09-11 15:40:41"
+        },
+        {
+            "name": "alexpechkarev/google-maps",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alexpechkarev/google-maps.git",
+                "reference": "7f9dcce9312bc6f29e9344d96e71c981aab37391"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alexpechkarev/google-maps/zipball/7f9dcce9312bc6f29e9344d96e71c981aab37391",
+                "reference": "7f9dcce9312bc6f29e9344d96e71c981aab37391",
+                "shasum": ""
+            },
+            "require": {
+                "alexpechkarev/geometry-library": "1.0.0",
+                "laravel/framework": "5.*"
+            },
+            "require-dev": {
+                "laravel/framework": "5.*",
+                "phpunit/phpunit": "4.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GoogleMaps\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Pechkarev",
+                    "email": "alexpechkarev@gmail.com"
+                }
+            ],
+            "description": "Collection of Google Maps API Web Services for Laravel",
+            "homepage": "https://alexpechkarev.github.io/google-maps/",
+            "keywords": [
+                "Google Maps API",
+                "directions api",
+                "distance matrix api",
+                "elevation api",
+                "geocoding api",
+                "geolocation api",
+                "places api web service",
+                "roads api",
+                "time zone api"
+            ],
+            "time": "2015-09-11 18:41:25"
+        },
         {
             "name": "barryvdh/laravel-ide-helper",
             "version": "v2.1.0",

@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\History whereCityName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\History whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\History whereUpdatedAt($value)
+ * @property string $place_id
+ * @method static \Illuminate\Database\Query\Builder|\App\History wherePlaceId($value)
  */
 class History extends Model
 {

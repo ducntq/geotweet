@@ -24,20 +24,16 @@ class TweetController extends Controller
     public function index()
     {
         $result = ['data' => [], 'errors' => []];
-        $query = \Request::get('query', '');
+        $query = \Request::get('place', '');
 
         // if query is empty, return empty list
         if (empty($query)) return response()->json($result);
 
-        $city = City::findWithQuery($query);
+        $city = City::findWithPlaceId($query);
 
-        if ($city) {
-            $tweets = Tweet::fetchByCity($city, '50km', 50);
-            if (!empty($tweets)) {
-                $result['data'] = [ 'city' => $city, 'tweets' => $tweets];
-            }
-        } else {
-            $result['errors'][] = 'City is not found. Please try again.';
+        $tweets = Tweet::fetchByCity($city, '50km', 50);
+        if (!empty($tweets)) {
+            $result['data'] = ['city' => $city, 'tweets' => $tweets];
         }
 
         return response()->json($result);

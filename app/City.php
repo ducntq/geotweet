@@ -10,9 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class City represents a city as a location
  * with longitude and latitude
  *
- * @property integer $id Unique identifier of city
+ * @property string $id Unique identifier of city
  * @property string $name Name of city
- * @property string $index_name Lowered case name of city
  * @property string $latitude Latitude of city
  * @property string $longitude Longitude of city
  * @property string $country Full country name of city
@@ -21,13 +20,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $fetched_at
  * @method static \Illuminate\Database\Query\Builder|\App\City whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\City whereIndexName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereLatitude($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereLongitude($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereCountry($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\City whereFetchedAt($value)
+ * @property string $place_id
+ * @method static \Illuminate\Database\Query\Builder|\App\City wherePlaceId($value)
  */
 class City extends Model
 {
@@ -85,6 +85,31 @@ class City extends Model
         $city->index_name = mb_strtolower($city->name); // in case we have to deal with Unicode
         $city->longitude = $geocode->getLongitude();
         $city->latitude = $geocode->getLatitude();
+        return $city;
+    }
+
+    public static function findWithPlaceId($placeId)
+    {
+        $result = City::wherePlaceId($placeId)->first();
+
+        // return result when found in database
+        if ($result) return $result;
+        else {
+            $response = json_decode(\GoogleMaps::load('placedetails')->setParam(['placeid' => $placeId])->get());
+            if (empty($response->result) || empty($response->status) || $response->status != 'OK') return [];
+            $city = City::loadFromPlace($response->result);
+            $city->save();
+            return $city;
+        }
+    }
+
+    public static function loadFromPlace($place)
+    {
+        $city = new City();
+        $city->name = $place->name;
+        $city->place_id = (string)$place->place_id;
+        $city->latitude = $place->geometry->location->lat;
+        $city->longitude = $place->geometry->location->lng;
         return $city;
     }
 }

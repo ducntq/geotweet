@@ -10,7 +10,7 @@
 @yield('content')
 <script type="text/javascript" src="<?=asset('/js/vendor.js')?>"></script>
 <script type="text/javascript" src="<?=asset('/js/main.js')?>"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAI3xUmiLOCDMjrRSUAFf23G9D7lOVHqmA&callback=initMap">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAI3xUmiLOCDMjrRSUAFf23G9D7lOVHqmA&libraries=places&callback=initMap">
 </script>
 </body>
 </html>

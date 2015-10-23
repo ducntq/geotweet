@@ -16,6 +16,7 @@ class CreateHistoryTable extends Migration
             $table->increments('id');
             $table->string('user_id', 32);
             $table->string('city_name');
+            $table->string('place_id');
             $table->timestamps();
         });
     }

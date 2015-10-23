@@ -147,6 +147,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Thujohn\Twitter\TwitterServiceProvider::class,
         Toin0u\Geocoder\GeocoderServiceProvider::class,
+        GoogleMaps\ServiceProvider\GoogleMapsServiceProvider::class
     ],
 
     /*
@@ -197,6 +198,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
         'Geocoder' => Toin0u\Geocoder\Facade\Geocoder::class,
+        'GoogleMaps' => GoogleMaps\Facade\GoogleMapsFacade::class,
     ],
 
 ];

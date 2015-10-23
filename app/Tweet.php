@@ -18,7 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $fetched_at
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property integer $city_id
+ * @property string $city_id
+ * @property string $tweet_id
  * @method static \Illuminate\Database\Query\Builder|\App\Tweet whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Tweet whereContent($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Tweet whereUsername($value)
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Tweet whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Tweet whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Tweet whereCityId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Tweet whereTweetId($value)
  */
 class Tweet extends Model
 {
@@ -61,6 +63,7 @@ class Tweet extends Model
             $history = new History();
             $history->city_name = $city->name;
             $history->user_id = $userId;
+            $history->place_id = $city->place_id;
             $history->save();
         }
 
@@ -114,7 +117,7 @@ class Tweet extends Model
     public static function loadFromTwitterApi($data, $city)
     {
         $tweet = new Tweet();
-        $tweet->id = $data->id;
+        $tweet->tweet_id = (string)$data->id;
         $tweet->content = $data->text;
         $tweet->username = $data->user->name;
         $tweet->user_display_name = $data->user->screen_name;

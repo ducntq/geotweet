@@ -13,7 +13,8 @@ class CreateTweetTable extends Migration
     public function up()
     {
         Schema::create('tweet', function (Blueprint $table) {
-            $table->string('id', 32);
+            $table->increments('id');
+            $table->string('tweet_id');
             $table->text('content');
             $table->string('username');
             $table->string('user_display_name');
@@ -23,7 +24,6 @@ class CreateTweetTable extends Migration
             $table->timestamp('fetched_at');
             $table->integer('city_id', false, true);
             $table->timestamps();
-            $table->primary('id');
         });
     }
 

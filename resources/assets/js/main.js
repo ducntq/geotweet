@@ -1,9 +1,10 @@
-var map, geoTweet;
+var map, geoTweet, places, autocomplete;
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 12.19070471984058, lng: 94.394},
         zoom: 3
     });
+
     // init new GeoTweet instance and bind events
     geoTweet = new GeoTweet(jQuery, map);
     geoTweet.bind();
@@ -13,7 +14,7 @@ function initMap() {
 
 var GeoTweet = (function () {
     var $, map, $input, $searchBtn, $historyBtn, $history, $historyList, $closeHistory,
-        $title, markers = [];
+        $title, markers = [], places, autocomplete, infoBoxes;
 
     /**
      * Constructor of GeoTweet
@@ -35,41 +36,41 @@ var GeoTweet = (function () {
         $historyList = $history.find('> ul');
         $closeHistory = $('#close-history');
         $title = $('#title');
+
+        initAutocomplete();
     }
 
     /**
-     * Get query from input
-     * @returns {*}
+     * Initialize Google Places Autocomplete
      */
-    function getQuery() {
-        return $input.val();
-    }
-
-    function focusOnInput() {
-        $input.focus();
-    }
-
-    /**
-     * Bind click event on Search button
-     */
-    function bindSearchBtn() {
-        $searchBtn.off().on('click', function(e) {
-            e.preventDefault();
-            performSearch(getQuery());
-        });
+    function initAutocomplete() {
+        autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */ (
+                document.getElementById('txtInput')), {
+                types: ['(cities)']
+            });
+        places = new google.maps.places.PlacesService(map);
     }
 
     /**
-     * Bind keydown event on query input, capture for Return
+     * Handle event when place is changed
      */
-    function bindQueryInputKeyup() {
-        $input.on('keyup', function(e) {
-            $input.popover('hide');
-            if (e.keyCode == 13) {
-                e.preventDefault();
-                performSearch(getQuery());
+    function bindPlaceChanged() {
+        autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
+            if (place.geometry) {
+                map.panTo(place.geometry.location);
+                map.setZoom(15);
+                performSearch(place.place_id);
             }
         });
+    }
+
+    /**
+     * Set focus to text box
+     */
+    function focusOnInput() {
+        $input.focus();
     }
 
     /**
@@ -97,10 +98,20 @@ var GeoTweet = (function () {
      */
     function bindHistoryItemClick() {
         $historyList.on('click', '.history-item a', function(e) {
-            var $this = $(this), city = $this.attr('data-city');
+            var $this = $(this), placeId = $this.attr('data-city');
             e.preventDefault();
-            $input.val(city);
-            performSearch(city);
+
+            performSearch(placeId);
+            /*
+            var request = {placeId: placeId};
+            var service = new google.maps.places.PlacesService(map);
+            service.getDetails(request, function (place, status) {
+                if (status == google.maps.places.PlacesServiceStatus.OK) {
+                    map.panTo(place.geometry.location);
+                    map.setZoom(15);
+                }
+            });
+            */
         });
     }
 
@@ -134,20 +145,21 @@ var GeoTweet = (function () {
     /**
      * Perform a search with query. On success, zoom to city location
      * and display tweets on map
-     * @param query
+     * @param place
      */
-    function performSearch(query) {
+    function performSearch(place) {
         clearMarkers();
         hideTitle();
-        if (query.length > 0) {
+        if (place.length > 0) {
             markers = [];
-            search(query, function(data) {
+            search(place, function(data) {
                 var city = data.city, tweets = data.tweets, totalTweets = tweets.length;
                 mapPanAndZoom(city, 13);
                 createHistoryItem(city);
                 setTitle('Tweets about ' + city.name);
                 centerTitle();
 
+                infoBoxes = [];
                 for (var i = 0; i < totalTweets; i++) {
                     drawTweet(tweets[i]);
                 }
@@ -203,6 +215,7 @@ var GeoTweet = (function () {
         var info = new google.maps.InfoWindow({
             content: content
         });
+        infoBoxes.push(info);
 
         var marker = new google.maps.Marker({
             position: coords,
@@ -220,6 +233,9 @@ var GeoTweet = (function () {
         markers.push(marker);
 
         marker.addListener('click', function() {
+            for(var i = 0; i < infoBoxes.length; i++) {
+                infoBoxes[i].close();
+            }
             info.open(map, marker);
         });
     }
@@ -235,13 +251,16 @@ var GeoTweet = (function () {
 
     /**
      * Perform a search with query
-     * @param query
+     * @param place
      * @param successCallback
      * @param failureCallback
      */
-    function search(query, successCallback, failureCallback) {
+    function search(place, successCallback, failureCallback) {
         var apiUrl = '/tweet';
-        $.getJSON(apiUrl, {query: encodeURIComponent(query)}, function(response) {
+        var data = {};
+        if (typeof place == 'object') data = {place: encodeURIComponent(place.place_id)};
+        else data = {place: encodeURIComponent(place)};
+        $.getJSON(apiUrl, data, function(response) {
             if (response && response.errors.length == 0) {
                 // if success
                 if (typeof successCallback == 'function') successCallback(response.data);
@@ -256,17 +275,22 @@ var GeoTweet = (function () {
      * Expose public `bind` method
      */
     GeoTweet.prototype.bind = function () {
-        bindSearchBtn();
-        bindQueryInputKeyup();
         bindHistoryBtn();
         bindCloseHistoryBtn();
         bindHistoryItemClick();
+        bindPlaceChanged();
     };
 
+    /**
+     * Expose focusInput
+     */
     GeoTweet.prototype.focusInput = function() {
         focusOnInput();
     };
 
+    /**
+     * Expose alignTitle
+     */
     GeoTweet.prototype.alignTitle = function() {
         centerTitle();
     };
