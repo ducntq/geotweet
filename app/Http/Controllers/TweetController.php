@@ -32,7 +32,7 @@ class TweetController extends Controller
         $city = City::findWithQuery($query);
 
         if ($city) {
-            $tweets = Tweet::fetchByCity($city, '50km', 30);
+            $tweets = Tweet::fetchByCity($city, '50km', 50);
             if (!empty($tweets)) {
                 $result['data'] = [ 'city' => $city, 'tweets' => $tweets];
             }
