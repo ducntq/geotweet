@@ -44,50 +44,11 @@ class City extends Model
     protected $dates = ['fetched_at'];
 
     /**
-     * @param $query string Query for searching
-     * @return City|null
-     */
-    public static function findWithQuery($query)
-    {
-        $result = City::where('name', $query)->orWhere('index_name', $query)->first();
-
-        // return result when found in database
-        if ($result) return $result;
-
-        // if not found, perform Google GeoCode search
-        try {
-            /** @var \Geocoder\Result\Geocoded $geocode */
-            $geocode = \Geocoder::geocode('components=locality:' . urlencode($query));
-        } catch (\Exception $e) {
-            //echo $e->getMessage();
-            return null;
-        }
-
-        // if no result from Google, return null
-        if (!$geocode || empty($geocode->getCity())) return null;
-
-        // else, create a new City, save to database, and return
-        $city = City::loadFromGeoCoded($geocode);
-        if ($city->save()) return $city;
-        else return null;
-    }
-
-    /**
-     * Create an instance of `City` from GeoCoded data
+     * Find City by `placeId`, create a new City if nothing is found
      *
-     * @param $geocode \Geocoder\Result\Geocoded
-     * @return City
+     * @param $placeId
+     * @return City|array|mixed|static
      */
-    public static function loadFromGeoCoded($geocode)
-    {
-        $city = new City();
-        $city->name = $geocode->getCity();
-        $city->index_name = mb_strtolower($city->name); // in case we have to deal with Unicode
-        $city->longitude = $geocode->getLongitude();
-        $city->latitude = $geocode->getLatitude();
-        return $city;
-    }
-
     public static function findWithPlaceId($placeId)
     {
         $result = City::wherePlaceId($placeId)->first();
@@ -103,6 +64,12 @@ class City extends Model
         }
     }
 
+    /**
+     * Generate an instance of City with raw data from Google Places
+     *
+     * @param $place
+     * @return City
+     */
     public static function loadFromPlace($place)
     {
         $city = new City();

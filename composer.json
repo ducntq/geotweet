@@ -10,7 +10,6 @@
         "barryvdh/laravel-ide-helper": "^2.1",
         "google/apiclient": "^1.1",
         "thujohn/twitter": "^2.0",
-        "toin0u/geocoder-laravel": "^0.6.0",
         "alexpechkarev/google-maps": "1.0.2"
     },
     "require-dev": {
