@@ -15,6 +15,7 @@
                 <button id="history-btn" class="btn btn-default btn-block btn-lg">History</button>
             </div>
         </div>
+        <div id="title">Welcome to GeoTweet</div>
         <div id="history-container">
             <ul>
                 <li id="close-history"><a href="#">&lt; Back to tweets</a></li>

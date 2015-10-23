@@ -1,17 +1,19 @@
-var map;
+var map, geoTweet;
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 12.19070471984058, lng: 94.394},
         zoom: 3
     });
     // init new GeoTweet instance and bind events
-    var geoTweet = new GeoTweet(jQuery, map);
+    geoTweet = new GeoTweet(jQuery, map);
     geoTweet.bind();
     geoTweet.focusInput();
+    geoTweet.alignTitle();
 }
 
 var GeoTweet = (function () {
-    var $, map, $input, $searchBtn, $historyBtn, $history, $historyList, $closeHistory, markers = [];
+    var $, map, $input, $searchBtn, $historyBtn, $history, $historyList, $closeHistory,
+        $title, markers = [];
 
     /**
      * Constructor of GeoTweet
@@ -32,6 +34,7 @@ var GeoTweet = (function () {
         $history = $('#history-container');
         $historyList = $history.find('> ul');
         $closeHistory = $('#close-history');
+        $title = $('#title');
     }
 
     /**
@@ -89,6 +92,9 @@ var GeoTweet = (function () {
         });
     }
 
+    /**
+     * Bind click event on history items
+     */
     function bindHistoryItemClick() {
         $historyList.on('click', '.history-item a', function(e) {
             var $this = $(this), city = $this.attr('data-city');
@@ -99,18 +105,48 @@ var GeoTweet = (function () {
     }
 
     /**
+     * Hide title
+     */
+    function hideTitle() {
+        $title.css('z-index', -1);
+    }
+
+    /**
+     * Align title to center of screen
+     */
+    function centerTitle() {
+        hideTitle();
+        var windowWidth = $(window).width();
+        var titleWidth = $title.width();
+        var left = (windowWidth - titleWidth) / 2;
+        if (left < 0) left = 0;
+        $title.css('left', left).css('z-index', 10);
+    }
+
+    /**
+     * Set content of title
+     * @param text
+     */
+    function setTitle(text) {
+        $title.text(text);
+    }
+
+    /**
      * Perform a search with query. On success, zoom to city location
      * and display tweets on map
      * @param query
      */
     function performSearch(query) {
         clearMarkers();
+        hideTitle();
         if (query.length > 0) {
             markers = [];
             search(query, function(data) {
                 var city = data.city, tweets = data.tweets, totalTweets = tweets.length;
                 mapPanAndZoom(city, 13);
                 createHistoryItem(city);
+                setTitle('Tweets about ' + city.name);
+                centerTitle();
 
                 for (var i = 0; i < totalTweets; i++) {
                     drawTweet(tweets[i]);
@@ -229,6 +265,10 @@ var GeoTweet = (function () {
 
     GeoTweet.prototype.focusInput = function() {
         focusOnInput();
+    };
+
+    GeoTweet.prototype.alignTitle = function() {
+        centerTitle();
     };
 
     return GeoTweet;
