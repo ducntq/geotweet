@@ -11,7 +11,7 @@ function initMap() {
 }
 
 var GeoTweet = (function () {
-    var $, map, $input, $searchBtn, $historyBtn, markers = [];
+    var $, map, $input, $searchBtn, $historyBtn, $history, $historyList, $closeHistory, markers = [];
 
     /**
      * Constructor of GeoTweet
@@ -29,6 +29,9 @@ var GeoTweet = (function () {
         $input = $('#txtInput');
         $searchBtn = $('#search-btn');
         $historyBtn = $('#history-btn');
+        $history = $('#history-container');
+        $historyList = $history.find('> ul');
+        $closeHistory = $('#close-history');
     }
 
     /**
@@ -63,6 +66,26 @@ var GeoTweet = (function () {
                 e.preventDefault();
                 performSearch(getQuery());
             }
+        });
+    }
+
+    /**
+     * Bind click event on history button
+     */
+    function bindHistoryBtn() {
+        $historyBtn.on('click', function(e) {
+            e.preventDefault();
+            $history.toggleClass('show');
+        });
+    }
+
+    /**
+     * Bind click event on `Back to tweets` link
+     */
+    function bindCloseHistoryBtn() {
+        $closeHistory.on('click', function(e) {
+            e.preventDefault();
+            $history.removeClass('show');
         });
     }
 
@@ -178,6 +201,8 @@ var GeoTweet = (function () {
     GeoTweet.prototype.bind = function () {
         bindSearchBtn();
         bindQueryInputKeyup();
+        bindHistoryBtn();
+        bindCloseHistoryBtn();
     };
 
     GeoTweet.prototype.focusInput = function() {

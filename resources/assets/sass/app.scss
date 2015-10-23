@@ -13,6 +13,11 @@
   bottom: 50px;
   width: 300px;
   background: #ffffff;
+  display: none;
+
+  &.show {
+    display: block;
+  }
 
   ul {
     list-style: none;

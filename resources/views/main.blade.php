@@ -17,7 +17,7 @@
         </div>
         <div id="history-container">
             <ul>
-                <li id="close"><a href="#">&lt; Back to tweets</a></li>
+                <li id="close-history"><a href="#">&lt; Back to tweets</a></li>
                 <li class="history-item"><a href="#">Hanoi</a></li>
                 <li class="history-item"><a href="#">Bangkok</a></li>
                 <li class="history-item"><a href="#">Beijing</a></li>
