@@ -29,6 +29,8 @@ class TweetController extends Controller
             if (!empty($tweets)) {
                 $result['data'] = [ 'city' => $city, 'tweets' => $tweets];
             }
+        } else {
+            $result['errors'][] = 'City is not found. Please try again.';
         }
 
         return response()->json($result);

@@ -58,6 +58,7 @@ var GeoTweet = (function () {
      */
     function bindQueryInputKeyup() {
         $input.on('keyup', function(e) {
+            $input.popover('hide');
             if (e.keyCode == 13) {
                 e.preventDefault();
                 performSearch(getQuery());
@@ -80,6 +81,16 @@ var GeoTweet = (function () {
 
                 for (var i = 0; i < totalTweets; i++) {
                     drawTweet(tweets[i]);
+                }
+            }, function (errors) {
+                if (errors.length > 0) {
+                    $input.attr('data-content', errors[0]).popover('show');
+
+                    setTimeout(function() {
+                        $input.popover('hide');
+                    }, 5000);
+                } else {
+                    alert("Something went wrong");
                 }
             });
         }
